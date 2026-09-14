@@ -179,6 +179,7 @@ class Analytics {
                 this._inputInHiddenField("first_landing_page", localStorage.getItem('first_landing_page'));
                 this._inputInHiddenField("first_medium", localStorage.getItem('first_medium'));
                 this._inputInHiddenField("session_source_medium", localStorage.getItem('session_source_medium'));
+                this._inputInHiddenField("Cookies", JSON.stringify(this._getAllCookies()));
                 if (form.getAttribute("analyticsTriggered") == "false") {
                     const response = await fetch(`${this.settings.apiUrl}/visitor/analytics`);
                     if (!response.ok) {
@@ -193,8 +194,6 @@ class Analytics {
                     this._inputInHiddenField("Ip_Region", data.ipRegion);
                     this._inputInHiddenField("Ip_Country", data.ipCountry);
                     this._inputInHiddenField("Ip_City", data.ipCity);
-                    this._inputInHiddenField("Cookies", JSON.stringify(this._getAllCookies()));
-
                     form.setAttribute("analyticsTriggered", "true");
                 }
             } catch (err) {
