@@ -12,7 +12,6 @@ class Analytics {
         this.language = language;
         this.eventsTriggeredLast = new Set();
         this.settings = Object.assign(defaultSettings, customSettings);
-        this.forms = this.getForms();
         this.settings.hiddenFields.Preferred_Contact_Language.value = this.language;
         this.tgLinks = document.querySelectorAll(`a[href="${this.settings.tgBaseLink}"]`);
 
@@ -524,6 +523,7 @@ class Analytics {
     }
 
     _init() {
+        this.getForms();
         this._getMarketingData();
         this.insertHiddenFieldsInForms(this.settings.hiddenFields);
         //TODO: вынести в отдельную функцию, сборку номера для валидации осуществить через iti
