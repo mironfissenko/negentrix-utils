@@ -4,6 +4,9 @@ export default {
     "tgBotName": "ICHBuddyBot",
     "tgSendPulseStart": "682c86d992037dea7e02af12",
     "cookieAgreement": "t_cookiesCategories",
+    "phoneValidation": {
+        "enabled": true,
+    },
     "tgPulseValues": {
         "phone_number": "",
         "email": "",

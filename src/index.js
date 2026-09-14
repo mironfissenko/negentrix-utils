@@ -13,7 +13,6 @@ class Analytics {
         this.eventsTriggeredLast = new Set();
         this.settings = Object.assign(defaultSettings, customSettings);
         this.settings.hiddenFields.Preferred_Contact_Language.value = this.language;
-        this.tgLinks = document.querySelectorAll(`a[href="${this.settings.tgBaseLink}"]`);
 
         if (this.settings.platform === "webflow") {
             this.settings.hiddenFields.phone = { "value": "", "type": "text", };
@@ -231,6 +230,7 @@ class Analytics {
     }
 
     async _phoneValidation(form) {
+        if (this.settings.phoneValidation.enabled === false) { return true; }
         try {
             console.log("phoneValidation is triggered;");
             const phoneAssembled = this._phoneAssemble(form);
@@ -523,6 +523,7 @@ class Analytics {
 
     _init() {
         this.forms = this.getForms();
+        this.tgLinks = document.querySelectorAll(`a[href="${this.settings.tgBaseLink}"]`);
         this._getMarketingData();
         this.insertHiddenFieldsInForms(this.settings.hiddenFields);
 
