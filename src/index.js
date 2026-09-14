@@ -230,10 +230,11 @@ class Analytics {
     }
 
     async _phoneValidation(form) {
-        if (this.settings.phoneValidation.enabled === false) { return true; }
         try {
             console.log("phoneValidation is triggered;");
             const phoneAssembled = this._phoneAssemble(form);
+
+            if (this.settings.phoneValidation.enabled === false) { return true; }
 
             const requestData = {
                 phone: phoneAssembled.phoneNumber,
