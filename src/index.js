@@ -160,11 +160,11 @@ class Analytics {
 
     // Подумать, на какое событие тоже лучше было бы повесить этот метод
     _attachLastNameListener(form) {
-        if (!this._getCookiesAgreement()) return;
 
         const lastNameField = form.querySelector('[name="email"]');
 
         lastNameField.addEventListener('change', async () => {
+            if (!this._getCookiesAgreement()) { return; }
             try {
                 this._getMarketingData();
                 let gaClientId = '';
