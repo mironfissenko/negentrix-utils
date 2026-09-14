@@ -378,8 +378,7 @@ class Analytics {
             const resForms = [];
 
             for (const form of initForms) {
-                const flag = (form.querySelector('input[name="email"]') !== null) && ((form.querySelector('input[name="phone"]') !== null) || (form.querySelector('input[name="phone-visible"]') !== null));
-
+                const flag = (form.querySelector('input[name="email"]') !== null) && ((form.querySelector('input[name="phone" i]') !== null) || (form.querySelector('input[name="phone-visible"]') !== null));
                 if (flag) {
                     resForms.push(form);
                 }
@@ -523,9 +522,10 @@ class Analytics {
     }
 
     _init() {
-        this.getForms();
+        this.forms = this.getForms();
         this._getMarketingData();
         this.insertHiddenFieldsInForms(this.settings.hiddenFields);
+
         //TODO: вынести в отдельную функцию, сборку номера для валидации осуществить через iti
         if (this.settings.platform === 'webflow') {
             this.forms.forEach(form => {
