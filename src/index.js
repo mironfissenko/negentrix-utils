@@ -378,7 +378,7 @@ class Analytics {
             const resForms = [];
 
             for (const form of initForms) {
-                const flag = (form.querySelector('input[name="email"]') !== null) && ((form.querySelector('input[name="phone" i]') !== null) || (form.querySelector('input[name="phone-visible"]') !== null));
+                const flag = (form.querySelector('input[name="email" i]') !== null) && ((form.querySelector('input[name="phone" i]') !== null) || (form.querySelector('input[name="phone-visible" i]') !== null));
                 if (flag) {
                     resForms.push(form);
                 }
@@ -466,7 +466,7 @@ class Analytics {
                             return false;
                         }
 
-                        const emailField = form.querySelector('input[name="email"]');
+                        const emailField = form.querySelector('input[name="email" i]');
                         this._mainEmail = emailField.value;
 
                         if (!form.checkValidity()) {
@@ -530,8 +530,8 @@ class Analytics {
         //TODO: вынести в отдельную функцию, сборку номера для валидации осуществить через iti
         if (this.settings.platform === 'webflow') {
             this.forms.forEach(form => {
-                const phoneVisible = form.querySelector('input[name="phone-visible"]');
-                const phone = form.querySelector('input[name="phone"]');
+                const phoneVisible = form.querySelector('input[name="phone-visible" i]');
+                const phone = form.querySelector('input[name="phone" i]');
                 const iti = window.intlTelInput(phoneVisible, {
                     initialCountry: "de",
                     dropdownContainer: document.body,
