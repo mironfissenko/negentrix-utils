@@ -314,17 +314,35 @@ class Analytics {
 
     _getMarketingData() {
         if (!this._getCookiesAgreement()) { return };
-        let medium = this._getMedium();
-        let source = this._getSource();
 
-        localStorage.setItem('session_source_medium', source + ' / ' + medium);
         if (!document.cookie.split('; ').find(row => row.startsWith("isMarketingDataCollected" + '='))) {
-            document.cookie = 'isMarketingDataCollected=true';
+            this._medium = this._getMedium();
+            this._source = this._getSource();
 
-            localStorage.setItem('first_medium', this._getMedium());
-            localStorage.setItem('first_source', this._getSource());
+            localStorage.setItem('first_medium', this._medium);
+            localStorage.setItem('first_source', this._source);
             localStorage.setItem('first_landing_page', window.location.href);
+            localStorage.setItem('session_source_medium', this._source + ' / ' + this._medium);
+
+            document.cookie = 'isMarketingDataCollected=true';
         }
+    }
+
+    _cookieAgreementObserver() {
+        if (this._getCookiesAgreement()) {
+            this._getMarketingData();
+        } else {
+            const observerInterval = setInterval(() => {
+                if (this._getCookiesAgreement()) {
+                    clearInterval(observerInterval);
+                    this._getMarketingData();
+                }
+            }, 1000);
+
+            setTimeout(() => clearInterval(observerInterval), 5 * 60 * 1000);
+        }
+
+
     }
 
     _getMedium() {
@@ -524,7 +542,7 @@ class Analytics {
     _init() {
         this.forms = this.getForms();
         this.tgLinks = document.querySelectorAll(`a[href="${this.settings.tgBaseLink}"]`);
-        this._getMarketingData();
+        this._cookieAgreementObserver();
         this.insertHiddenFieldsInForms(this.settings.hiddenFields);
 
         //TODO: вынести в отдельную функцию, сборку номера для валидации осуществить через iti
