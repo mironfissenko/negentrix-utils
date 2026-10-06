@@ -273,27 +273,28 @@ class Analytics {
             form.setAttribute("animation", "true");
             console.log("Animation started;");
 
-            let subButton = form.querySelector(this.settings.subButtonAnimationSelector);
-            const originalText = subButton.textContent;
-            const frames = [
-                ".",
-                ". .",
-                ". . ."
-            ];
+            const subButton = form.querySelector(this.settings.subButtonAnimationSelector);
+            if (!subButton) return;
+
+            const textProp = subButton.tagName === "INPUT" ? "value" : "textContent";
+            const originalText = subButton[textProp];
+
+            const frames = [".", ". .", ". . ."];
             let currentFrame = 0;
 
             const intervalId = setInterval(() => {
                 if (form.getAttribute("animation") !== "true") {
                     clearInterval(intervalId);
-                    subButton.textContent = originalText;
+                    subButton[textProp] = originalText;
                     return;
                 }
 
-                console.log("Current text: ", subButton.textContent);
+                console.log("Current text: ", subButton[textProp]);
 
-                subButton.textContent = frames[currentFrame];
+                subButton[textProp] = frames[currentFrame];
                 currentFrame = (currentFrame + 1) % frames.length;
             }, 400);
+
         } catch (error) {
             console.error("Error occured: ", error);
         }
@@ -453,16 +454,24 @@ class Analytics {
             }
             window.location.href = this.settings.googleTagSend.thankYouPageUrl;
         } else if (this.settings.googleTagSend.method === "dataLayerPush") {
-            dataLayer.push({
-                'event': this.settings.googleTagSend.event,
-            });
+            let events = this.settings.googleTagSend.event;
+            if (!Array.isArray(events)) {
+                dataLayer.push({
+                    'event': events,
+                });
+            } else {
+                events.forEach(event => {
+                    dataLayer.push({
+                        'event': event,
+                    });
+                })
+            }
         } else {
             console.warn("No dataLayer push or any analytics logic");
         }
     }
 
     subValidation(forms) {
-        //TODO: конкретно тут может быть проблема с safari, так как subValidation запускается сразу после инициализации объекта класса
         try {
             console.log("subValidation was called;");
 
