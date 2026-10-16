@@ -441,7 +441,7 @@ class Analytics {
                     phoneVisible.focus();
 
                     phoneVisible.addEventListener('input', () => {
-                        fieldEl.classList.remove('is-invalid');
+                        phoneVisible.classList.remove('is-invalid');
                     }, { once: true });
                 }
 
