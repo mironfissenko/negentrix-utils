@@ -434,10 +434,15 @@ class Analytics {
             const handleError = (errorIndex) => {
                 fieldEl.classList.add('is-invalid');
                 fieldEl.focus();
-                if (fieldEl.getAttribute('name') === "phone") {
+
+                if (fieldEl.getAttribute('name') === "phone" && this.settings.platform === 'webflow') {
                     const phoneVisible = form.querySelector('[name="phone-visible"]');
                     phoneVisible.classList.add('is-invalid');
                     phoneVisible.focus();
+
+                    phoneVisible.addEventListener('input', () => {
+                        fieldEl.classList.remove('is-invalid');
+                    }, { once: true });
                 }
 
                 fieldEl.addEventListener('input', () => {
