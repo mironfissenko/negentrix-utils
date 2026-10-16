@@ -420,24 +420,39 @@ class Analytics {
     }
 
     _validateFields(form, fieldsObject = this.settings.validateFields) {
-        const fields = Object.entries(fieldsObject);
+        // Сбрасываем стили у полей формы, подлежащих валидации
+        for (const el of form.elements) {
+            if (el.name && fieldsObject[el.name]) {
+                el.classList.remove('is-invalid');
+            }
+        }
 
-        for (const [name, config] of fields) {
-            const fieldEl = form.querySelector(`[name="${name}"]`);
+        for (const fieldEl of form.elements) {
+            const config = fieldsObject[fieldEl.name];
 
-            if (!fieldEl) continue;
+            if (!config) continue;
 
             const fieldValue = fieldEl.value.trim();
 
-            if (!fieldValue) {
-                this._showErrorMessage(config.error_type[0]);
+            const handleError = (errorIndex) => {
+                fieldEl.classList.add('is-invalid');
+                fieldEl.focus();
+
+                fieldEl.addEventListener('input', () => {
+                    fieldEl.classList.remove('is-invalid');
+                }, { once: true });
+
+                this._showErrorMessage(config.error_type[errorIndex]);
                 this._stopButtonAnimation(form);
+            };
+
+            if (!fieldValue) {
+                handleError(0);
                 return false;
             }
 
             if (!fieldEl.checkValidity()) {
-                this._showErrorMessage(config.error_type[1]);
-                this._stopButtonAnimation(form);
+                handleError(1);
                 return false;
             }
         }
