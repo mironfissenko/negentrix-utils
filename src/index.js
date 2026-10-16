@@ -434,8 +434,10 @@ class Analytics {
             const handleError = (errorIndex) => {
                 fieldEl.classList.add('is-invalid');
                 fieldEl.focus();
-                if (fieldEl.getAttribute('name') !== "phone") {
-                    form.querySelector('[name="phone-visible"]').classList.add('is-invalid');
+                if (fieldEl.getAttribute('name') === "phone") {
+                    const phoneVisible = form.querySelector('[name="phone-visible"]');
+                    phoneVisible.classList.add('is-invalid');
+                    phoneVisible.focus();
                 }
 
                 fieldEl.addEventListener('input', () => {
