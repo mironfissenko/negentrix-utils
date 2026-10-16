@@ -420,11 +420,8 @@ class Analytics {
     }
 
     _validateFields(form, fieldsObject = this.settings.validateFields) {
-        // Сбрасываем стили у полей формы, подлежащих валидации
         for (const el of form.elements) {
-            if (el.name && fieldsObject[el.name]) {
-                el.classList.remove('is-invalid');
-            }
+            el.classList.remove('is-invalid');
         }
 
         for (const fieldEl of form.elements) {
@@ -437,6 +434,9 @@ class Analytics {
             const handleError = (errorIndex) => {
                 fieldEl.classList.add('is-invalid');
                 fieldEl.focus();
+                if (fieldEl.getAttribute('name') !== "phone") {
+                    form.querySelector('[name="phone-visible"]').classList.add('is-invalid');
+                }
 
                 fieldEl.addEventListener('input', () => {
                     fieldEl.classList.remove('is-invalid');
