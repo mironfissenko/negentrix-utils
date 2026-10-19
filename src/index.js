@@ -583,6 +583,7 @@ class Analytics {
                 const phone = form.querySelector('input[name="phone" i]');
                 const iti = window.intlTelInput(phoneVisible, {
                     initialCountry: "de",
+                    allowedNumberTypes: ["MOBILE"],
                     excludeCountries: this.settings.excludeCountries,
                     dropdownContainer: document.body,
                     loadUtils: () => import(
